@@ -9,46 +9,19 @@ A real-time **sales analytics pipeline** that ingests live restaurant orders via
 
 The pipeline follows a **Bronze → Silver → Gold** architecture:
 
-┌──────────────────────────┐
-│  Order Entry UI (Python) │
-└─────────────┬────────────┘
-              │
-              ▼
-┌──────────────────────────────┐
-│  Kafka Topic: restaurant-sales │
-│  (Sends Order JSON)           │
-└─────────────┬────────────────┘
-              │
-              ▼
-┌──────────────────────────────┐
-│  DLT Pipeline: Bronze Layer  │
-│  (Stream Ingestion)          │
-└─────────────┬────────────────┘
-              │
-              ▼
-┌──────────────────────────────┐
-│  Delta Table: sales_raw_delta│
-│  (Parse JSON & Store)        │
-└─────────────┬────────────────┘
-              │
-              ▼
-┌──────────────────────────────┐
-│  DLT Pipeline: Gold Layer    │
-│  (Stream Transformation)     │
-└─────────────┬────────────────┘
-              │
-              ▼
-┌──────────────────────────────┐
-│  Delta Table: sales_transformed_mv │
-│  (Flatten & Enrich)          │
-└─────────────┬────────────────┘
-              │
-              ▼
-┌──────────────────────────────┐
-│  Real-Time Sales Dashboard   │
-│  (Query & Visualization)     │
-└──────────────────────────────┘
-
+Order Entry UI (Python)
+    ↓ Sends Order JSON
+Kafka Topic: restaurant-sales
+    ↓ Stream Ingestion
+DLT Pipeline: Bronze Layer
+    ↓ Parse JSON & Store
+Delta Table: sales_raw_delta
+    ↓ Stream Transformation
+DLT Pipeline: Gold Layer
+    ↓ Flatten & Enrich
+Delta Table: sales_transformed_mv
+    ↓ Query
+Real-Time Sales Dashboard
 
 ---
 
