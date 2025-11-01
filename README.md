@@ -9,19 +9,19 @@ A real-time **sales analytics pipeline** that ingests live restaurant orders via
 
 The pipeline follows a **Bronze → Silver → Gold** architecture:
 
-Order Entry UI (Python)
-    ↓ Sends Order JSON
-Kafka Topic: restaurant-sales
-    ↓ Stream Ingestion
-DLT Pipeline: Bronze Layer
-    ↓ Parse JSON & Store
-Delta Table: sales_raw_delta
-    ↓ Stream Transformation
-DLT Pipeline: Gold Layer
-    ↓ Flatten & Enrich
-Delta Table: sales_transformed_mv
-    ↓ Query
-Real-Time Sales Dashboard
+Order Entry UI (Python)<br>
+    ↓ Sends Order JSON<br>
+Kafka Topic: restaurant-sales<br>
+    ↓ Stream Ingestion<br>
+DLT Pipeline: Bronze Layer<br>
+    ↓ Parse JSON & Store<br>
+Delta Table: sales_raw_delta<br>
+    ↓ Stream Transformation<br>
+DLT Pipeline: Gold Layer<br>
+    ↓ Flatten & Enrich<br>
+Delta Table: sales_transformed_mv<br>
+    ↓ Query<br>
+Real-Time Sales Dashboard<br>
 
 ---
 
