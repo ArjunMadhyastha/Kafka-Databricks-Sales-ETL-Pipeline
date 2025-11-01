@@ -1,0 +1,7 @@
+# Kafka SSL Keys and Certificates
+*.pem
+*.cert
+*.key
+service-2.cert
+service-2.key
+ca-2.pem
