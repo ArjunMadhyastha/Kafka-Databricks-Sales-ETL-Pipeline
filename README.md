@@ -11,17 +11,21 @@ The pipeline follows a **Bronze → Silver → Gold** architecture:
 
 ```mermaid
 graph TD
-    A[Order Entry UI (Python)]-->|Sends Order JSON|B[Kafka Topic: restaurant-sales];
-    B-->|Stream Ingestion|C[DLT Pipeline: Bronze Layer];
-    C-->|Parse JSON & Store|D[Delta Table: sales_raw_delta];
-    D-->|Stream Transformation|E[DLT Pipeline: Gold Layer];
-    E-->|Flatten & Enrich|F[Delta Table: sales_transformed_mv];
-    F-->|Query|G[Real-Time Sales Dashboard];
+    A[Order Entry UI (Python)] --> |Sends Order JSON| B[Kafka Topic: restaurant-sales];
+    B --> |Stream Ingestion| C[DLT Pipeline: Bronze Layer];
+    C --> |Parse JSON & Store| D[Delta Table: sales_raw_delta];
+    D --> |Stream Transformation| E[DLT Pipeline: Gold Layer];
+    E --> |Flatten & Enrich| F[Delta Table: sales_transformed_mv];
+    F --> |Query| G[Real-Time Sales Dashboard];
 
-    style A fill:#a2c4e9,stroke:#333,stroke-width:2px
-    style D fill:#fbe5c8,stroke:#333,stroke-width:2px
-    style F fill:#c9daf8,stroke:#333,stroke-width:2px
-    style G fill:#b7e1cd,stroke:#333,stroke-width:2px
+    style A fill:#a2c4e9,stroke:#333,stroke-width:2px;
+    style B fill:#d9ead3,stroke:#333,stroke-width:2px;
+    style C fill:#cfe2f3,stroke:#333,stroke-width:2px;
+    style D fill:#fbe5c8,stroke:#333,stroke-width:2px;
+    style E fill:#c9daf8,stroke:#333,stroke-width:2px;
+    style F fill:#b6d7a8,stroke:#333,stroke-width:2px;
+    style G fill:#b7e1cd,stroke:#333,stroke-width:2px;
+
 ```
 
 ---
