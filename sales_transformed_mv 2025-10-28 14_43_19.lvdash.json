@@ -1,0 +1,1192 @@
+{
+  "datasets": [
+    {
+      "name": "dataset1",
+      "displayName": "sales_transformed_mv",
+      "queryLines": [
+        "Select * from sales_transformed_mv;"
+      ]
+    },
+    {
+      "name": "efbf8bb3",
+      "displayName": "Customers",
+      "queryLines": [
+        "SELECT sum(customer_per_order) from sales_transformed_mv where date_diff(to_date(timestamp_standard),current_date())=0;"
+      ]
+    },
+    {
+      "name": "e035c49c",
+      "displayName": "Sales",
+      "queryLines": [
+        "select sum(amount) from sales_transformed_mv where date_diff(to_date(timestamp_standard),current_date())=0;"
+      ]
+    },
+    {
+      "name": "28fdb8e2",
+      "displayName": "Orders",
+      "queryLines": [
+        "SELECT count(order_id) from sales_transformed_mv where date_diff(to_date(timestamp_standard),current_date())=0;"
+      ]
+    },
+    {
+      "name": "82f35833",
+      "displayName": "Sales by Item",
+      "queryLines": [
+        "SELECT sum(Masala_Dosa_Q*Masala_Dosa_P) as Masala_Dosa, sum(Idli_Q*Idli_P) as Idli,sum(Idli_Vada_Q*Idli_Vada_P) as Idli_Vada, sum(Poori_Q*Poori_P) as Poori, sum(Chapati_Q*Chapati_P) as Chapati, sum(Plain_Dosa_Q*Plain_Dosa_P) as Plain_Dosa, sum(Tea_Q*Tea_P) as Tea, sum(Coffee_Q*Coffee_P) as Coffee, sum(Cold_Drink_Q*Cold_Drink_P) as Cold_Drink, sum(Lassi_Q*Lassi_P) as Lassi from sales_transformed_mv  where date_diff(to_date(timestamp_standard),current_date())=0;"
+      ]
+    },
+    {
+      "name": "dfab0c43",
+      "displayName": "Quantity per Item",
+      "queryLines": [
+        "SELECT sum(Masala_Dosa_Q) as Masala_Dosa, sum(Idli_Q) as Idli,sum(Idli_Vada_Q) as Idli_Vada, sum(Poori_Q) as Poori, sum(Chapati_Q) as Chapati, sum(Plain_Dosa_Q) as Plain_Dosa, sum(Tea_Q) as Tea, sum(Coffee_Q) as Coffee, sum(Cold_Drink_Q) as Cold_Drink, sum(Lassi_Q) as Lassi from sales_transformed_mv  where date_diff(to_date(timestamp_standard),current_date())=0;"
+      ]
+    },
+    {
+      "name": "bec5be6f",
+      "displayName": "Payment Mode",
+      "queryLines": [
+        "SELECT t.payment_mode, ROUND(t.cnt*100.0/t.total,2) as p from (SELECT payment_mode, count(payment_mode) as cnt, sum(count(payment_mode)) over () as total FROM sales_transformed_mv group by payment_mode) as t;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "page1",
+      "displayName": "New Page",
+      "layout": [
+        {
+          "widget": {
+            "name": "bar_chart1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "e035c49c",
+                  "fields": [
+                    {
+                      "name": "sum(sum(amount))",
+                      "expression": "SUM(`sum(amount)`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(sum(amount))",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "style": {
+                    "bold": true
+                  }
+                }
+              },
+              "frame": {
+                "showDescription": false,
+                "title": "Sales",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "table1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dataset1",
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {},
+              "invisibleColumns": [
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "order_id",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100000,
+                  "title": "order_id",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "table_id",
+                  "type": "string",
+                  "displayAs": "string",
+                  "order": 100001,
+                  "title": "table_id",
+                  "allowSearch": false,
+                  "alignContent": "left",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "customer_per_order",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100002,
+                  "title": "customer_per_order",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "payment_mode",
+                  "type": "string",
+                  "displayAs": "string",
+                  "order": 100003,
+                  "title": "payment_mode",
+                  "allowSearch": false,
+                  "alignContent": "left",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Masala_Dosa_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100004,
+                  "title": "Masala_Dosa_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Masala_Dosa_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100005,
+                  "title": "Masala_Dosa_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Idli_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100006,
+                  "title": "Idli_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Idli_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100007,
+                  "title": "Idli_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Idli_Vada_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100008,
+                  "title": "Idli_Vada_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Idli_Vada_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100009,
+                  "title": "Idli_Vada_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Poori_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100010,
+                  "title": "Poori_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Poori_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100011,
+                  "title": "Poori_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Chapati_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100012,
+                  "title": "Chapati_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Chapati_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100013,
+                  "title": "Chapati_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Plain_Dosa_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100014,
+                  "title": "Plain_Dosa_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Plain_Dosa_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100015,
+                  "title": "Plain_Dosa_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Tea_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100016,
+                  "title": "Tea_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Tea_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100017,
+                  "title": "Tea_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Coffee_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100018,
+                  "title": "Coffee_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Coffee_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100019,
+                  "title": "Coffee_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Cold_Drink_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100020,
+                  "title": "Cold_Drink_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Cold_Drink_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100021,
+                  "title": "Cold_Drink_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Lassi_Q",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100022,
+                  "title": "Lassi_Q",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "Lassi_P",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100023,
+                  "title": "Lassi_P",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "numberFormat": "0",
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "amount",
+                  "type": "integer",
+                  "displayAs": "number",
+                  "order": 100024,
+                  "title": "amount",
+                  "allowSearch": false,
+                  "alignContent": "right",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                },
+                {
+                  "booleanValues": [
+                    "false",
+                    "true"
+                  ],
+                  "imageUrlTemplate": "{{ @ }}",
+                  "imageTitleTemplate": "{{ @ }}",
+                  "imageWidth": "",
+                  "imageHeight": "",
+                  "linkUrlTemplate": "{{ @ }}",
+                  "linkTextTemplate": "{{ @ }}",
+                  "linkTitleTemplate": "{{ @ }}",
+                  "linkOpenInNewTab": true,
+                  "name": "timestamp_standard",
+                  "type": "string",
+                  "displayAs": "string",
+                  "order": 100025,
+                  "title": "timestamp_standard",
+                  "allowSearch": false,
+                  "alignContent": "left",
+                  "allowHTML": false,
+                  "highlightLinks": false,
+                  "useMonospaceFont": false,
+                  "preserveWhitespace": false
+                }
+              ],
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 25,
+              "paginationSize": "default",
+              "condensed": true,
+              "withRowNumber": false
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "52502864",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "efbf8bb3",
+                  "fields": [
+                    {
+                      "name": "sum(customer_per_order)",
+                      "expression": "`sum(customer_per_order)`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(customer_per_order)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Customers"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "25781dd7",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "28fdb8e2",
+                  "fields": [
+                    {
+                      "name": "count(order_id)",
+                      "expression": "`count(order_id)`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "count(order_id)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Orders"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "9dde24b6",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "82f35833",
+                  "fields": [
+                    {
+                      "name": "sum(Chapati)",
+                      "expression": "SUM(`Chapati`)"
+                    },
+                    {
+                      "name": "sum(Coffee)",
+                      "expression": "SUM(`Coffee`)"
+                    },
+                    {
+                      "name": "sum(Cold_Drink)",
+                      "expression": "SUM(`Cold_Drink`)"
+                    },
+                    {
+                      "name": "sum(Lassi)",
+                      "expression": "SUM(`Lassi`)"
+                    },
+                    {
+                      "name": "sum(Idli)",
+                      "expression": "SUM(`Idli`)"
+                    },
+                    {
+                      "name": "sum(Idli_Vada)",
+                      "expression": "SUM(`Idli_Vada`)"
+                    },
+                    {
+                      "name": "sum(Masala_Dosa)",
+                      "expression": "SUM(`Masala_Dosa`)"
+                    },
+                    {
+                      "name": "sum(Plain_Dosa)",
+                      "expression": "SUM(`Plain_Dosa`)"
+                    },
+                    {
+                      "name": "sum(Poori)",
+                      "expression": "SUM(`Poori`)"
+                    },
+                    {
+                      "name": "sum(Tea)",
+                      "expression": "SUM(`Tea`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fields": [
+                    {
+                      "fieldName": "sum(Chapati)",
+                      "displayName": "Chapati"
+                    },
+                    {
+                      "fieldName": "sum(Coffee)",
+                      "displayName": "Coffee"
+                    },
+                    {
+                      "fieldName": "sum(Cold_Drink)",
+                      "displayName": "Cold Drink"
+                    },
+                    {
+                      "fieldName": "sum(Lassi)",
+                      "displayName": "Lassi"
+                    },
+                    {
+                      "fieldName": "sum(Idli)",
+                      "displayName": "Idli"
+                    },
+                    {
+                      "fieldName": "sum(Idli_Vada)",
+                      "displayName": "Idli Vada"
+                    },
+                    {
+                      "fieldName": "sum(Masala_Dosa)",
+                      "displayName": "Masala Dosa"
+                    },
+                    {
+                      "fieldName": "sum(Plain_Dosa)",
+                      "displayName": "Plain Dosa"
+                    },
+                    {
+                      "fieldName": "sum(Poori)",
+                      "displayName": "Poori"
+                    },
+                    {
+                      "fieldName": "sum(Tea)",
+                      "displayName": "Tea"
+                    }
+                  ],
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Sales per Item",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "d311b952",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dfab0c43",
+                  "fields": [
+                    {
+                      "name": "sum(Chapati)",
+                      "expression": "SUM(`Chapati`)"
+                    },
+                    {
+                      "name": "sum(Coffee)",
+                      "expression": "SUM(`Coffee`)"
+                    },
+                    {
+                      "name": "sum(Cold_Drink)",
+                      "expression": "SUM(`Cold_Drink`)"
+                    },
+                    {
+                      "name": "sum(Idli)",
+                      "expression": "SUM(`Idli`)"
+                    },
+                    {
+                      "name": "sum(Idli_Vada)",
+                      "expression": "SUM(`Idli_Vada`)"
+                    },
+                    {
+                      "name": "sum(Lassi)",
+                      "expression": "SUM(`Lassi`)"
+                    },
+                    {
+                      "name": "sum(Masala_Dosa)",
+                      "expression": "SUM(`Masala_Dosa`)"
+                    },
+                    {
+                      "name": "sum(Plain_Dosa)",
+                      "expression": "SUM(`Plain_Dosa`)"
+                    },
+                    {
+                      "name": "sum(Poori)",
+                      "expression": "SUM(`Poori`)"
+                    },
+                    {
+                      "name": "sum(Tea)",
+                      "expression": "SUM(`Tea`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "sum(Chapati)",
+                      "displayName": "Chapati"
+                    },
+                    {
+                      "fieldName": "sum(Coffee)",
+                      "displayName": "Coffee"
+                    },
+                    {
+                      "fieldName": "sum(Cold_Drink)",
+                      "displayName": "Cold Drinks"
+                    },
+                    {
+                      "fieldName": "sum(Idli)",
+                      "displayName": "Idli"
+                    },
+                    {
+                      "fieldName": "sum(Idli_Vada)",
+                      "displayName": "Idli Vada"
+                    },
+                    {
+                      "fieldName": "sum(Lassi)",
+                      "displayName": "Lassi"
+                    },
+                    {
+                      "fieldName": "sum(Masala_Dosa)",
+                      "displayName": "Masala Dosa"
+                    },
+                    {
+                      "fieldName": "sum(Plain_Dosa)",
+                      "displayName": "Plain Dosa"
+                    },
+                    {
+                      "fieldName": "sum(Poori)",
+                      "displayName": "Poori"
+                    },
+                    {
+                      "fieldName": "sum(Tea)",
+                      "displayName": "Tea"
+                    }
+                  ]
+                }
+              },
+              "frame": {
+                "title": "Units Sold",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "57b3c798",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "bec5be6f",
+                  "fields": [
+                    {
+                      "name": "sum(p)",
+                      "expression": "SUM(`p`)"
+                    },
+                    {
+                      "name": "payment_mode",
+                      "expression": "`payment_mode`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(p)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "payment_mode",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Payment Mode"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 9,
+            "width": 3,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
+}
