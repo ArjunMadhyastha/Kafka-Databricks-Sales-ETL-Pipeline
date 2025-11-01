@@ -1,11 +1,11 @@
-# 🍽️ Kafka-Databricks-Sales-Pipeline
+#  Kafka-Databricks-Sales-Pipeline
 
 **Project Summary:**  
 A real-time **sales analytics pipeline** that ingests live restaurant orders via a **Python GUI** → streams them to **Apache Kafka** → processes them with **Databricks Delta Live Tables (DLT)** → stores them in **Delta Lake** for powering a **real-time Sales Dashboard**.
 
 ---
 
-## 🧩 Architecture Overview
+##  Architecture Overview
 
 The pipeline follows a **Bronze → Silver → Gold** architecture:
 
@@ -25,7 +25,7 @@ Real-Time Sales Dashboard<br>
 
 ---
 
-## ⚙️ Setup & Execution
+##  Setup & Execution
 
 <details>
 <summary><b>Prerequisites</b></summary>
@@ -48,7 +48,7 @@ Real-Time Sales Dashboard<br>
 
 ---
 
-### 🧠 Step 1: Local Kafka Producer
+###  Step 1: Local Kafka Producer
 
 **1️⃣ File Setup**  
 Ensure the following files are in the same folder:
@@ -69,7 +69,7 @@ Use the Python GUI to enter order data and click **SEND ORDER** to publish JSON 
 
 ---
 
-### 🧠 Step 2: Databricks DLT Pipeline
+###  Step 2: Databricks DLT Pipeline
 
 **1️⃣ Edit and Prepare Code**
 - Open `transformation.py`
@@ -95,7 +95,7 @@ Click **Start** to begin continuous ingestion and transformation.
 
 ---
 
-## 📈 Dashboard Visualization
+##  Dashboard Visualization
 
 The final Gold Layer table (`sales_transformed_mv`) supports the real-time Sales Dashboard:
 
@@ -109,7 +109,7 @@ The final Gold Layer table (`sales_transformed_mv`) supports the real-time Sales
 
 ---
 
-## 🧪 Verification Query
+##  Verification Query
 
 Once the DLT pipeline is running, verify the output in Databricks SQL:
 
@@ -126,7 +126,7 @@ ORDER BY timestamp_standard DESC;
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 | Component | Technology |
 |------------|-------------|
@@ -138,7 +138,7 @@ ORDER BY timestamp_standard DESC;
 
 ---
 
-## 📦 Folder Structure
+##  Folder Structure
 
 ```
 ├── kafka_ui_producer.py        # Python GUI Producer
@@ -150,7 +150,7 @@ ORDER BY timestamp_standard DESC;
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 Developed by **Arjun Madhyastha**  
 Real-time analytics pipeline integrating Kafka and Databricks for continuous business intelligence.
