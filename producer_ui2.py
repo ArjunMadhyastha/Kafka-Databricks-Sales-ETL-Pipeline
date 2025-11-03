@@ -6,7 +6,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox, font as tkfont
 from kafka import KafkaProducer
 
-# --- 1. Configuration & Global State ---
 TOPIC_NAME = "......"
 KAFKA_SERVER = "kafka-......-......f.aivencloud.com:...."
 
