@@ -143,8 +143,7 @@ ORDER BY timestamp_standard DESC;
 ```
 ├── kafka_ui_producer.py        # Python GUI Producer
 ├── transformation.py           # DLT transformation logic
-├── assets/
-│   └── sales_dashboard.png     # Dashboard visualization
+├── dashboard_sample.png     # Dashboard visualization
 ├── README.md
 ```
 
